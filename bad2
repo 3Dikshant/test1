@@ -1,0 +1,61 @@
+<?php
+
+// 1. Using an undefined variable.
+echo $undefinedVariable;
+
+// 2. Calling a non-existent function.
+nonExistentFunction();
+
+// 3. Function with problematic type usage (adding a string to an integer).
+function add($a, $b) {
+    return $a + $b;
+}
+echo add("abc", 10);
+
+// 4. Class with a call to a non-existent method.
+class Sample {
+    public function greet() {
+        return "Hello";
+    }
+}
+$sample = new Sample();
+echo $sample->nonExistentMethod();
+
+// 5. Unreachable code after return.
+function unreachable() {
+    return "Done";
+    echo "This code will never be executed.";
+}
+unreachable();
+
+// 6. Function with parameter type mismatches.
+function multiply(int $x, int $y): int {
+    return $x * $y;
+}
+// Passing a string instead of an int.
+echo multiply("a", 5);
+
+// 7. Array access on a non-array variable.
+$notAnArray = "I am not an array";
+echo $notAnArray['key'];
+
+// 8. Accessing an undefined property on an object.
+class Test {
+    public $name = "Test";
+}
+$test = new Test();
+echo $test->age;
+
+// 9. A loop with a suspicious condition.
+// Although the break prevents an actual infinite loop, PHPStan may warn about the loop logic.
+for ($i = 0; $i < 10; $i--) {
+    break;
+}
+
+// 10. Using a deprecated function (each() is deprecated in PHP 7.2+).
+function deprecatedFunc() {
+    $array = [1, 2, 3];
+    $a = each($array);
+    return $a;
+}
+deprecatedFunc();
